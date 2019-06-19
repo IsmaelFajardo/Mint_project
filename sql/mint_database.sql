@@ -5,83 +5,75 @@ USE mint
 -- Crear tabla "Cliente"
 CREATE TABLE IF NOT EXISTS clientes 
 (
-    clientes_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    nombre              VARCHAR(255),
-    apellidop           VARCHAR(255),
-    apellidom           VARCHAR(255),
+    id                  INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nombre              VARCHAR(50),
+    apellidop           VARCHAR(50),
+    apellidom           VARCHAR(50),
     fecha_nac           DATE,
-    genero              VARCHAR(255),
-    email               VARCHAR(255),
-    telefono            VARCHAR(255),
-    pais                VARCHAR(255),
-    calle               VARCHAR(255),
-    num_ext             VARCHAR(255),
-    num_int             VARCHAR(255),
-    col                 VARCHAR(255),
-    estado              VARCHAR(255),
+    genero              TINYINT,
+    email               VARCHAR(100),
+    telefono            VARCHAR(10),
+    pais                VARCHAR(3), --CODIGO ISO
+    calle               VARCHAR(100),
+    num_ext             VARCHAR(10),
+    num_int             VARCHAR(10),
+    col                 VARCHAR(50),
+    estado              VARCHAR(3), --CODIGO ISO
     cp                  SMALLINT,
     tarjeta             INT
-)
+);
 
 
 -- Crear tabla "Pedido"
-CREATE TABLE IF NOT EXISTS pedidos 
+CREATE TABLE IF NOT EXISTS pedidos
 (
-    pedido_id           INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    estado              VARCHAR(255),
+    id                  INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    estado              INT,
     fecha               DATETIME,
-    FOREIGN KEY (cliente_id) REFERENCES clientes(cliente_id),
-    FOREIGN KEY (carrito_id) REFERENCES carritos(carrito_id)
-)
+    FOREIGN KEY (cliente_id) REFERENCES clientes.id,
+    FOREIGN KEY (carrito_id) REFERENCES carritos.id,
+);
 
 
 -- Crear tabla "Producto"
 CREATE TABLE IF NOT EXISTS productos 
 (
-    producto_id         VARCHAR(255) NOT NULL PRIMARY KEY,
-    marca               VARCHAR(255),
-    modelo              VARCHAR(255),
+    id                  VARCHAR(50) NOT NULL PRIMARY KEY,
+    marca               VARCHAR(50),
+    modelo              VARCHAR(50),
     talla               INT,
     cantidad            INT,
-    nombre              VARCHAR(255),
-    precio              FLOAT,
-    --imagen            ,
-    FOREIGN KEY (subcategoria_id) REFERENCES subcategorias(subcategoria_id)
-)
+    nombre              VARCHAR(50),
+    precio              DECIMAL(11,2),
+    imagen              VARCHAR(255), --URL de la ubicación de la imagen   
+    FOREIGN KEY (categoria_id) REFERENCES categorias.id
+    FOREIGN KEY (subcategoria_id) REFERENCES subcategorias.id
+);
 
 
 -- Crear tabla "Subcategoria"
 CREATE TABLE IF NOT EXISTS subcategorias 
 (
-    subcategoria_id    INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    nombre              VARCHAR(255)
-    --imagen      
-)
+    id                  INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nombre              VARCHAR(50)
+    imagen              VARCHAR(255) --URL de la ubicación de la imagen      
+);
 
 
 -- Crear tabla "Categoria"
 CREATE TABLE IF NOT EXISTS categorias 
 (
-    categoria_id        INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    nombre              VARCHAR(255),
-    --imagen      , 
-)
+    id                  INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nombre              VARCHAR(50),
+    imagen              VARCHAR(255), --URL de la ubicación de la imagen   
+);
 
 
--- Crear tabla "Carrito"
-CREATE TABLE IF NOT EXISTS carritos 
+-- Crear tabla "Pedido_Detalle"
+CREATE TABLE IF NOT EXISTS pedidos_detalle 
 (
-    carrito_id          INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    total               FLOAT,
-    FOREIGN KEY (pedido_id) REFERENCES pedidos(pedido_id),
-    FOREIGN KEY (producto_id) REFERENCES productos(producto_id)
-)
-
-
--- Crear tabla "Categoria_Subcategoria"
-CREATE TABLE IF NOT EXISTS categorias_subcategorias 
-(
-    categoria_subcategoria_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    FOREIGN KEY (categoria_id) REFERENCES categorias(categoria_id),
-    FOREIGN KEY (subcategoria_id) REFERENCES subcategorias(subcategoria_id)
-)
+    cantidad            INT,
+    subtotal            DECIMAL(11,2),
+    FOREIGN KEY (pedido_id) REFERENCES pedidos.id,
+    FOREIGN KEY (producto_id) REFERENCES productos.id,
+);
