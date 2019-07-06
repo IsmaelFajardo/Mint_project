@@ -5,30 +5,40 @@ class productos(models.Model):
     # id = models.CharField(max_length=3)
     marca = models.CharField(max_length=50)
     modelo = models.CharField(max_length=50)
-    talla = models.IntegerField( )
-    cantidad = models.IntegerField( )
+    talla = models.SmallIntegerField()
+    cantidad = models.SmallIntegerField( )
     nombre = models.CharField(max_length=50)
     precio = models.DecimalField(max_digits=11, decimal_places=2)
-    imagen = models.CharField(max_length=50)
-    categoria = models.IntegerField( )
-    subcategoria = models.IntegerField( )
-    # PRIMARY KEY (id),
-    # FOREIGN KEY (categoria) REFERENCES categorias(id),
-    # FOREIGN KEY (subcategoria) REFERENCES subcategorias(id)
+    imagen = models.ImageField()
+    categoria  = [
+        ("Mujer", "Mujer"),
+        ("Hombre", "Hombre"),
+    ]
+    categoria = models.CharField(max_length=50, choices=categoria)
+    subcategoria  = [
+        ("business", "business"),
+        ("casual", "casual"),
+        ("chamarra", "chamarra"),
+        ("shoes", "shoes"),
+        ("tshirt", "tshirt"),
+    ]
+    subcategoria = models.CharField(max_length=50, choices=subcategoria)
+
 
 class subcategorias(models.Model):
     # id
     nombre = models.CharField(max_length=50)
-    imagen = models.CharField(max_length=50)
+    imagen = models.ImageField( blank=True)
+    # imagen = models.ImageField(upload_to=’product_photo’, blank=True)
 
 
 class categorias(models.Model):
     # id                  INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     nombre = models.CharField(max_length=50)
-    imagen = models.CharField(max_length=50)
+    imagen = models.ImageField( blank=True)
 
 class Pedido_Detalle(models.Model):
-    cantidad = models.IntegerField( )
+    cantidad = models.SmallIntegerField( )
     subtotal = models.DecimalField(max_digits=11, decimal_places=2)
     pedido = models.IntegerField( )
     producto = models.CharField(max_length=50)
