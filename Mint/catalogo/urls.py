@@ -4,5 +4,4 @@ from catalogo import views
 urlpatterns = [
     path('', views.index, name='index'),
     path("catalogo/productos", views.catalogo, name="catalogo"),
-    path("catalogo/productos", views.producto, name="producto"),
 ]

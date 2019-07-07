@@ -26,8 +26,8 @@ def productos(request):
     )
 
 
-if request.method == "POST":
-    idProductos = request.POST["idProductos"]
-    idProductos = int(x=idProductos)
-    idProducto1 = request.POST["idProducto1"]
-    idProducto2 = request.POST["idProducto2"]
+# if request.method == "POST":
+#     idProductos = request.POST["idProductos"]
+#     idProductos = int(x=idProductos)
+#     idProducto1 = request.POST["idProducto1"]
+#     idProducto2 = request.POST["idProducto2"]
